@@ -22,10 +22,10 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Create subnet
 resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  name                        = var.subnet_name
+  resource_group_name         = azurerm_resource_group.rg.name
+  virtual_network_name        = azurerm_virtual_network.vnet.name
+  address_prefixes            = ["10.0.1.0/24"]
 }
 
 # Create public IPs
@@ -117,6 +117,11 @@ resource "azurerm_network_interface_security_group_association" "association" {
 
 resource "azurerm_network_interface_security_group_association" "association2" {
   network_interface_id      = azurerm_network_interface.nic2.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "subnetassociation" {
+  subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
